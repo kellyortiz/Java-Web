@@ -1,0 +1,1 @@
+Projeto como base para o novo projeto
