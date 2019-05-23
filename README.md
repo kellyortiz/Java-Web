@@ -20,3 +20,5 @@ Projeto de programação de sistemas 2
 ### Tabelas
   - Carros
   - Jogos
+  
+### Projeto para ser avaliado leva o nome da pasta de: Projeto_Web
