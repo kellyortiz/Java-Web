@@ -1,0 +1,136 @@
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+        <title>Carro (update)</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="/site/sakura.css">
+    </head>
+
+    <body>
+        <p><a href="/site">Voltarl</a></p>
+        <h1>Atualizar carro</h1>
+
+        <table>    
+            <tr>
+            </tr>
+                <td>Id:</td>
+                <td id="id"></td>
+            <tr>
+                <td>Modelo:</td>
+                <td><input type="text" id="txtModelo"></td>
+            </tr>
+            <tr>
+                <td>Marca:</td>
+                <td><input type="text" id="txtMarca"></td> 
+            </tr>
+            <tr>
+                <td>Ano:</td>
+                <td><input type="text" id="txtAno"></td> 
+            </tr>
+            <tr>
+                <td>Categoria:</td>
+                <td><input type="text" id="txtCategoria"></td> 
+            </tr>
+            
+            
+            
+            <tr><td></td><td><input type="button" onclick="atualizarCarro()" value="Salvar"></td></tr>
+        </table>
+
+        <p style="font-weight:bold" id="mensagem"></p>
+        
+        <table>    
+            <tr>
+                <th>ID</th>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Ano</th>
+                <th>Categoria</th>
+            </tr>
+            <tbody id="carros">
+            </tbody>
+        </table>
+
+    <script>
+        const corpoTabela = document.querySelector('#carros');
+        const paragrafoMensagem = document.querySelector('#mensagem');
+        const textoModelo = document.querySelector('#txtModelo');
+        const textoMarca = document.querySelector('#txtMarca');
+        const textoAno = document.querySelector('#txtAno');
+        const textoCategoria = document.querySelector('#txtCategoria');
+        const celulaID = document.querySelector('#idCarro');
+        
+        function inicializar() {
+            paragrafoMensagem.innerHTML = 'Selecione um carro:'
+            celulaID.innerHTML = '';
+            textoModelo.value = '';
+            textoMarca.value = '';
+            textoAno.value = '';
+            textoCategoria.value = '';
+            listarTodosCarros();            
+        }
+        
+        function selecionarCarro(id, modelo, marca, ano, categoria) {
+            paragrafoMensagem.innerHTML = 'Altere os dados.'
+            celulaID.innerHTML = id;
+            textoModelo.value = modelo;
+            textoMarca.value = marca;
+            textoAno.value = ano;
+            textoCategoria.value = categoria;
+            
+        }
+
+        async function atualizarCarro() {
+            if (celulaID.innerHTML == '') return;
+            const ID = celulaID.innerHTML;
+            const URL = `/proj/Carro/${ID}`;
+            const dadosCarro = {
+                                       'id': ID,
+                                       'modelo': textoModelo.value,
+                                       'marca': textoMarca.value
+                                       'ano': textoAno.value
+                                       'categoria': textoCategoria.value
+                                   };
+            const putRequest =    {
+                                        method:'PUT',
+                                        body: JSON.stringify(dadosCarro),
+                                        headers: { 'Content-type': 'application/json;charset=UTF-8' }
+                                   };
+            try {
+                fetch(URL, putRequest).then(resposta => resposta.json()).then(jsonResponse => inicializar());
+            } catch (e) {
+                corpoTabela.innerHTML = e;
+            }
+        }
+        
+        function preencherTabela(carros) {
+            var linhasTabela = '';
+            var n = carros.length;
+            for (var i = 0; i < n; i++) {
+                var carro = carros[i];
+                linhasTabela += `<tr><td><a href="javascript:void(0)" onclick="selecionarCarro('${carro.id}','${carro.modelo}','${carro.marca}','${carro.ano}','${carro.categoria}')">` + carro.id     + '</a></td>' + 
+                                    '<td>' + carro.modelo   + '</td>' +
+                                    '<td>' + carro.marca   + '</td>' +
+                                    '<td>' + carro.ano   + '</td>' +
+                                    '<td>' + carro.categoria + '</td></tr>\n';
+            }
+            corpoTabela.innerHTML = linhasTabela;
+        }
+
+        async function listarTodosCarros() {
+          const URL = `/proj/Carro`;
+          try {
+            fetch(URL).then(resposta => resposta.json()).then(jsonResponse => preencherTabela(jsonResponse));
+          } catch (e) {
+            corpoTabela.innerHTML = e;
+          }
+        }
+
+        inicializar();
+
+    </script>
+    </body>
+
+    </html>
