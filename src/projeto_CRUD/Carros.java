@@ -1,16 +1,21 @@
-package projeto_CRUD;
-
-import java.sql.Date;
-
-public class Carros {
-    private long id;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+/**
+ *
+ * @author Kelly Ortiz F
+ */
+public class Carro {
+private long id;
     private String modelo;
     private String marca;
-    private Date Ano;
+    private String Ano;
     private String categoria;
     
     
-    public Carros(long id, String mod, Date ano, String m, String categ) {
+    public Carro(long id, String mod, String ano, String m, String categ) {
       this.id = id;
         modelo = mod;
         marca = m;
@@ -18,23 +23,18 @@ public class Carros {
         categoria = categ;
     }
 
-    Carros() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-
-    
+   
     public long getId() { return id; }
     public String getModelo() { return modelo; }
     public String getMarca() { return marca; }
-    public Date getAno(){ return Ano; }
+    public String getAno(){ return Ano; }
     public String getCategoria() { return categoria; }
     
     
     public void setId(long id) { this.id = id; }
     public void setModelo(String mod) { modelo = mod; }
     public void setMarca(String m) { marca = m; }
-    public void setAno(Date ano) { Ano = ano; }
+    public void setAno(String ano) { Ano = ano; }
     public void setCategoria(String categ) { categoria = categ; }
     
     @Override
