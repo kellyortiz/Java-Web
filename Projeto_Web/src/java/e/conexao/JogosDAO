@@ -1,0 +1,90 @@
+package projeto_CRUD;
+
+import java.sql.Date;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author Kelly Ortiz e Welker
+ */
+public class JogosDAO {
+    private PreparedStatement stmC;
+    private PreparedStatement stmR;
+    private PreparedStatement stmU;
+    private PreparedStatement stmD;
+    
+    private Connection conn;
+    private List<Jogos> Carros;
+   
+    
+    public JogosDAO() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            this.conn = DriverManager.getConnection("jdbc:mysql://localhost/Projeto","root","");
+            String url = "jdbc:derby://localhost:1527/Projeto";
+            String usuario ="projeto";
+            String senha = "projeto";
+            this.stmC = this.conn.prepareStatement("INSERT INTO jogas(nomeTimeA,nomeTimeB,golTimeA,golTimeB,id) VALUES(?,?)",
+                    Statement.RETURN_GENERATED_KEYS);
+            this.stmR = this.conn.prepareStatement("SELECT * FROM Times");
+            this.stmU = this.conn.prepareStatement("UPDATE jogos SET nome_timeA=?,nome_timeA=?,ano=?,categoria=?WHERE id=?");
+            this.stmD = this.conn.prepareStatement("DELETE FROM jogos WHERE id=?");
+        }catch(ClassNotFoundException | SQLException e) {
+        }
+    }    
+    public void close(){
+        try{
+            this.conn.close();
+        } catch(Exception e) {
+        }
+    }
+    
+     public List<Jogos> read() throws SQLException {
+        try {
+            ResultSet rs = this.stmR.executeQuery();
+            
+            List<Jogos> jogos = new ArrayList<>();
+            
+            while(rs.next()) {
+                Jogos j = new Jogos();
+                j.setId(rs.getLong("id"));
+                j.setModelo(rs.getString("nomeTimeA"));
+                j.setMarca(rs.getString("nomeTimeB"));
+                j.setId(rs.getLong("golTimeA"));
+                j.setId(rs.getLong("golTimeB"));
+                jogos.add(j);
+          
+            return Carros;
+            }
+        } catch(Exception e) {
+        }
+        return null;
+    }
+     
+ 
+    public Jogos create(Jogos novoJogo) {
+        try {
+            this.stmC.setString(1, novoJogo.getNometimeA());
+            this.stmC.setString(2, novoJogo.getNometimeA()());
+            this.stmC.setLong(3, novoJogo.getGoltimeAtimeA());
+            this.stmC.setLong(3, novoJogo.getGoltimeAtimeB())
+            this.stmC.executeUpdate();
+            
+            ResultSet rs = this.stmC.getGeneratedKeys();
+            rs.next();
+            long id = rs.getLong(1);
+            novoJogo.setId(id);
+            
+            return novoJogo;
+        }catch(Exception e) {
+            return null;
+        }
+    }
+}
