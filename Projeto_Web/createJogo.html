@@ -1,0 +1,74 @@
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+        <title>Carros (create)</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <p><a href="\">Voltar</a></p>
+        <h1>Novo:</h1>
+
+        <table>    
+            <tr>
+                <td>Time A:</td>
+                <td><input type="text" id="txTIMEA"></td>
+            </tr>
+            <tr>
+                <td>Time B:</td>
+                <td><input type="text" id="txtTIMEB"></td>
+            </tr>
+            <tr>
+                <td>GOLS TIME A:</td>
+                <td><input type="text" id="txtGoltimeA"></td>
+            </tr>>
+            <tr>
+                <td>GOLS TIME B:</td>
+                <td><input type="text" id="txtGoltimeB"></td>
+            </tr>>
+            
+            <td></td><td><input type="button" onclick="criarJogos()" value="Criar"></td></tr>
+        </table>
+        <p style="font-weight:bold" id="mensagem"></p>
+        
+    <script>
+        const textoTimeA = document.querySelector('#txTIMEA');
+        const textoTimeB = document.querySelector('#txTIMEB');
+        const TotalGoltimeA = document.querySelector('#txtGoltimeA');
+        const TotalGoltimeb = document.querySelector('#txtGoltimeB');
+        
+        function mostrarMensagem(JogoNovo) {
+            textoTimeA.value = '';
+            textoTimeB.value = '';
+            TotalGoltimeA.value = '';
+            TotalGoltimeB.value = '';
+            paragrafoMensagem.innerHTML = 'Jogo adicionado! ' + JogoNovo.id;
+        }
+
+        async function criarJogo() {
+            const URL = `/api/jogo`;
+            const JogoCarro = {
+                                       'timeA': textoTimeA.value,
+                                       'timeB': textoTimeA.value,
+                                       'totalGolsTimeA': TotalGoltimeA.value,
+                                       'totalGolsTimeA': TotalGoltimeA.value,
+                                       
+                                   };
+            const postRequest =    {
+                                        method:'POST',
+                                        body: JSON.stringify(JogoCarro),
+                                        headers: { 'Content-type': 'application/json;charset=UTF-8' }
+                                   };
+            try {
+                fetch(URL, postRequest).then(resposta => resposta.json()).then(jsonResponse => mostrarMensagem(jsonResponse));
+            } catch (e) {
+                corpoTabela.innerHTML = e;
+            }
+        }
+
+    </script>
+    </body>
+
+    </html>

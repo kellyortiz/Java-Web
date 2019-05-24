@@ -1,0 +1,55 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Carro (read)</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+         <p><a href="/">Voltar</a></p>
+        <h1>Carros</h1>
+        <table>    
+            <tr>
+                <th>ID</th>
+                <th>Modelo</th>
+                <th>Marca</th>
+                <th>Ano</th>
+                <th>Categoria</th>
+            </tr>
+            <tbody id="carros">
+            </tbody>
+        </table>
+
+    <script>
+        const corpoTabela = document.querySelector('#carros');
+        const contadorParagraph = document.querySelector('#contador');
+        
+        function preencherTabela(carro) {
+            var linhasTabela = '';
+            var n = carros.length;
+            for (var i = 0; i < n; i++) {
+                var carros = carros[i];
+                linhasTabela += '<tr><td>' + carros.id     + '</td>' + 
+                                    '<td>' + carros.modelo   + '</td>' +
+                                    '<td>' + carros.marca   + '</td>' +
+                                    '<td>' + carros.ano   + '</td>' +
+                                    '<td>' + carros.categoria + '</td></tr>\n';
+            }
+            corpoTabela.innerHTML = linhasTabela;
+            contadorParagraph.innerHTML = n + ' ' + (n==1?'carros':'carros');
+        }
+
+        async function listarTodosCarros() {
+          const URL = `/api/carros`;
+          try {
+            fetch(URL).then(resposta => resposta.json()).then(jsonResponse => preencherTabela(jsonResponse));
+          } catch (e) {
+            corpoTabela.innerHTML = e;
+          }
+        }
+
+        listarTodosCarros();
+    </script>
+    </body>
+
+    </html>

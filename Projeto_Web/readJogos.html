@@ -1,0 +1,55 @@
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Jogo(read)</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+         <p><a href="/">Voltar</a></p>
+        <h1>Jogo</h1>
+        <table>    
+            <tr>
+                <th>ID</th>
+                <th>TimeA</th>
+                <th>TimeB</th>
+                <th>Total Gols Time A</th>
+                <th>Total Gols Time B</th>
+            </tr>
+            <tbody id="jogo">
+            </tbody>
+        </table>
+
+    <script>
+        const corpoTabela = document.querySelector('#jogo');
+        const contadorParagraph = document.querySelector('#contador');
+        
+        function preencherTabela(jogo) {
+            var linhasTabela = '';
+            var n = jogo.length;
+            for (var i = 0; i < n; i++) {
+                var jogo = jogo[i];
+                linhasTabela += '<tr><td>' + jogo.id     + '</td>' + 
+                                    '<td>' + jogo.TimeA   + '</td>' +
+                                    '<td>' + jogo.TimeB   + '</td>' +
+                                    '<td>' + jogo.Total Gols Time A  + '</td>' +
+                                    '<td>' + jogo.Total Gols Time A + '</td></tr>\n';
+            }
+            corpoTabela.innerHTML = linhasTabela;
+            contadorParagraph.innerHTML = n + ' ' + (n==1?'Jogo':'Jogo');
+        }
+
+        async function listarTodosJogo() {
+          const URL = `/api/jogo`;
+          try {
+            fetch(URL).then(resposta => resposta.json()).then(jsonResponse => preencherTabela(jsonResponse));
+          } catch (e) {
+            corpoTabela.innerHTML = e;
+          }
+        }
+
+        listarTodosJogo();
+    </script>
+    </body>
+
+    </html>

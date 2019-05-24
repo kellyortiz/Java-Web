@@ -1,0 +1,74 @@
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+        <title>Carros (create)</title>
+        <meta charset="UTF-8">
+    </head>
+
+    <body>
+        <p><a href="\">Voltar</a></p>
+        <h1>Novo:</h1>
+
+        <table>    
+            <tr>
+                <td>Modelo:</td>
+                <td><input type="text" id="txtModelo"></td>
+            </tr>
+            <tr>
+                <td>Marca:</td>
+                <td><input type="text" id="txtMarca"></td>
+            </tr>
+            <tr>
+                <td>Ano:</td>
+                <td><input type="text" id="txtAno"></td>
+            </tr>>
+            <tr>
+                <td>Categoria:</td>
+                <td><input type="text" id="txtCategoria"></td>
+            </tr>>
+            
+            <td></td><td><input type="button" onclick="criarCarro()" value="Criar"></td></tr>
+        </table>
+        <p style="font-weight:bold" id="mensagem"></p>
+        
+    <script>
+        const textoModelo = document.querySelector('#txtModelo');
+        const textoMarca = document.querySelector('#txtMarca');
+        const textoAno = document.querySelector('#txtAno');
+        const textoCategoria = document.querySelector('#txtCategoria');
+        
+        function mostrarMensagem(carroNovo) {
+            textoModelo.value = '';
+            textoAno.value = '';
+            textoMarca.value = '';
+            textoCategoria.value = '';
+            paragrafoMensagem.innerHTML = 'Carro adicionado! ' + carroNovo.id;
+        }
+
+        async function criarCarro() {
+            const URL = `/api/carros`;
+            const dadosCarro = {
+                                       'modelo': textoModelo.value,
+                                       'marca': textoMarca.value,
+                                       'ano': textoAno.value,
+                                       'categoria': textoCategoria.value,
+                                       
+                                   };
+            const postRequest =    {
+                                        method:'POST',
+                                        body: JSON.stringify(dadosCarro),
+                                        headers: { 'Content-type': 'application/json;charset=UTF-8' }
+                                   };
+            try {
+                fetch(URL, postRequest).then(resposta => resposta.json()).then(jsonResponse => mostrarMensagem(jsonResponse));
+            } catch (e) {
+                corpoTabela.innerHTML = e;
+            }
+        }
+
+    </script>
+    </body>
+
+    </html>
